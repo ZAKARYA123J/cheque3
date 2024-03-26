@@ -1,0 +1,10 @@
+/* App.css */
+
+.container {
+    display: flex; /* Use flexbox */
+  }
+  
+  .content {
+    flex: 1; /* Allow content to expand to fill available space */
+  }
+  

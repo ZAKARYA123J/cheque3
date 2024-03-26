@@ -11,69 +11,57 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-
+import { BsBank } from "react-icons/bs";
+import { MdAccountCircle } from "react-icons/md";
+import { BiDockTop } from "react-icons/bi";
+import { Link } from 'react-router-dom';
 const Sidebar = () => {
   return (
-    <div className='sidebar'>
+    <div className='sidebar'style={{maxWidth:'20%'}}>
         <div className='top'>
-          <span className='logo'>Admin Panel</span>
+          <span className='logo'>OWR CONNECT</span>
         </div>
         <hr />
         <div className='center'>
           <ul>
             <p className="title">MAIN MENU</p>
             <li>
+              <Link to={'/'} style={{textDecoration:'none'}}>
               <DashboardIcon className='icon' />
-              <span>Dashboard</span>
+              <span>Home</span>
+              </Link>
             </li>
             <p className="title">LISTS MENU</p>
             <li>
-              <GroupIcon className='icon' />
-              <span>Users</span>
+              <Link to={'banque'}  style={{textDecoration:'none'}}>
+              <BsBank className='icon' />
+              <span>Bnaques</span>
+              </Link>
             </li>
             <li>
-              <Inventory2Icon className='icon' />
-              <span>Products</span>
+              <Link to={'compte'} style={{textDecoration:'none'}}>
+              <MdAccountCircle className='icon' />
+              <span>Comptes</span>
+              </Link>
             </li>
             <li>
-              <ProductionQuantityLimitsIcon className='icon' />
-              <span>Orders</span>
-            </li>
-            <li>
-              <LocalShippingIcon className='icon' />
-              <span>Delivery</span>
+              <Link to={'carnet'}  style={{textDecoration:'none'}}>
+              <BiDockTop className='icon' />
+              <span>carnets</span>
+              </Link>
             </li>
             <p className="title">OTHER MENU</p>
             <li>
               <QueryStatsIcon className='icon' />
-              <span>Status</span>
+              <span>Suivi chéques/effects émis</span>
             </li>
-            <li>
-              <NotificationsIcon className='icon' />
-              <span>Notifications</span>
-            </li>
-            <p className="title">SERVICES</p>
-            <li>
-              <HealthAndSafetyIcon className='icon' />
-              <span>System Health</span>
-            </li>
-            <li>
-              <PsychologyIcon className='icon' />
-              <span>Logs</span>
-            </li>
+          
+           
             <li>
               <SettingsIcon className='icon' />
               <span>Settings</span>
             </li>
-            <p className="title">ACCOUNT</p>
-            <li>
-              <PersonIcon className='icon' />
-              <span>Profile</span>
-            </li>
-            <li>
-              <ExitToAppIcon className='icon' />
-              <span>Logout</span>
-            </li>
+           
           </ul>
         </div>
         <div className='bottom'>

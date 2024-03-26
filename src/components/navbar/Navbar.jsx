@@ -4,10 +4,10 @@ import LanguageIcon from '@mui/icons-material/Language';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MessageIcon from '@mui/icons-material/Message';
-
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
-    <div className='navbar'>
+    <div className='navbar' style={{  height: '60px'}}>
       <div className="wrapper">
         <div className="search">
           <input type="text" placeholder='Search...' />

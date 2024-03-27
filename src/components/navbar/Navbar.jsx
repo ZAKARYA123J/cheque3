@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="items">
           <div className="item">
             <LanguageIcon className='icon' />
-            English
+            Francais
           </div>
           <div className="item">
             <Brightness4Icon className='icon' />

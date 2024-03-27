@@ -24,13 +24,17 @@ export default function ListeCarnet() {
   const [carnets, setCarnet] = useState([]);
   const [showInsertDialog, setShowInsertDialog] = useState(false);
   const [showChequeDialog, setShowChequeDialog] = useState(false);
+  const [selectedCarnetId, setSelectedCarnetId] = useState(null);
+  const [comptes, setComptes] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/comptes');
-        const { data } = response;
-        setCarnet(data);
+        const response = await axios.get('http://localhost:8000/api/carnets');
+        const compteResponse = await axios.get('http://localhost:8000/api/comptes');
+        setCarnet(response.data);
+        setComptes(compteResponse.data);
+       
       } catch (error) {
         console.log('Error fetching data:', error);
       }
@@ -49,7 +53,10 @@ export default function ListeCarnet() {
   const handleCloseChequeDialog = () => {
     setShowChequeDialog(false);
   };
-
+  const handleRowClick = (id) => {
+    setSelectedCarnetId(id);
+    setShowChequeDialog(true);
+  };
   return (
     <>
       <Button variant="contained" onClick={handleAddClick}>Ajouter nouveau <FaPlus /></Button>
@@ -60,45 +67,65 @@ export default function ListeCarnet() {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">Type</TableCell>
-              <TableCell align="right">Banque</TableCell>
               <TableCell align="right">Compte</TableCell>
+              <TableCell align="right">societe</TableCell>
               <TableCell align="right">Ville</TableCell>
               <TableCell align="right">N° de Carnet</TableCell>
               <TableCell align="right">Serie</TableCell>
               <TableCell align="right">Debut</TableCell>
               <TableCell align="right">Fin</TableCell>
               <TableCell align="right">Reste</TableCell>
-              <TableCell align="right">Position</TableCell>
               <TableCell align="right">Nouveau Cheque</TableCell>
               <TableCell align="right">Supprimer</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {carnets.map((carnet, index) => (
-              <TableRow key={index}>
-                <TableCell>{carnet.id}</TableCell>
-                <TableCell align="right">{carnet.type}</TableCell>
-                <TableCell>{carnet.Banque}</TableCell>
-                <TableCell>{carnet.Compte}</TableCell>
-                <TableCell align="right">{carnet.ville}</TableCell>
-                <TableCell align="right">{carnet.cosdecarnet}</TableCell>
-                <TableCell align="right">{carnet.serie}</TableCell>
-                <TableCell align="right">{carnet.first}</TableCell>
-                <TableCell align="right">{carnet.last}</TableCell>
-                <TableCell align="right">{carnet.remaining_checks}</TableCell>
-                <TableCell align="right">ze</TableCell>
-                <TableCell align="right">
+          <TableBody style={{ border: '1px solid black' }}>
+  {carnets.map((carnet) => (
+    <TableRow key={carnet.id} onClick={() => handleRowClick(carnet.id)}>
+      <TableCell>{carnet.id}</TableCell>
+      <TableCell>{carnet.type}</TableCell>
+      <TableCell>
+        {comptes.map((compte) => {
+          if (compte.id=== carnet.id_comptes) {
+            return (
+              <React.Fragment key={compte.id}>
+                <div>{compte.Compte}</div>
+                <div>{compte.banque.banque}</div>
+              </React.Fragment>
+            );
+          }
+          return null;
+        })}
+      </TableCell>
+      <TableCell>
+        {comptes.map((compte) => {
+          if (compte.id=== carnet.id_comptes) {
+            return (
+              <React.Fragment key={compte.id}>
+               
+                <div>{compte.societe.Nomsociete}</div>
+              </React.Fragment>
+            );
+          }
+          return null;
+        })}
+      </TableCell>
+      <TableCell>{carnet.ville}</TableCell>
+      <TableCell>{carnet.cosdecarnet}</TableCell>
+      <TableCell>{carnet.serie}</TableCell>
+      <TableCell>{carnet.first}</TableCell>
+      <TableCell>{carnet.last}</TableCell>
+      <TableCell>{carnet.remaining_checks}</TableCell>
+      <TableCell align="right">
                   <Button onClick={() => setShowChequeDialog(true)}>
                     <IoIosAddCircle fontSize={30} />
                   </Button>
                 </TableCell>
-                <TableCell align="right">
-                  <Button color="secondary">Edit</Button>
-                  <Button variant="outlined" color="error">Remove</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+
+    </TableRow>
+  ))}
+</TableBody>
+
         </Table>
       </TableContainer>
       <Dialog open={showInsertDialog} onClose={handleCloseInsertDialog}>
@@ -111,7 +138,7 @@ export default function ListeCarnet() {
       </Dialog>
       <Dialog open={showChequeDialog} onClose={handleCloseChequeDialog}>
         <DialogContent>
-          <Cheque handleClose={handleCloseChequeDialog} />
+          <Cheque handleClose={handleCloseChequeDialog} carnetId={selectedCarnetId} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseChequeDialog}>Annuler</Button>

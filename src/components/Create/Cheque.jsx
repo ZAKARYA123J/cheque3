@@ -1,10 +1,10 @@
 import React from 'react';
 import { Typography, TextField, Grid, Container, Button,InputLabel } from '@mui/material';
 
-export default function Cheque() {
+export default function Cheque({carnetId}) {
   return (
     <Container>
-      <Typography variant="p">N° de carnet :</Typography>
+      <Typography variant="p">ID carnet :{carnetId}</Typography>
       <form>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>

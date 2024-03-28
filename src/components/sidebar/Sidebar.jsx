@@ -53,7 +53,9 @@ const Sidebar = () => {
             <p className="title">OTHER MENU</p>
             <li>
               <QueryStatsIcon className='icon' />
+              <Link to={'cheque'} style={{textDecoration:'none'}}>
               <span>Suivi chéques/effects émis</span>
+              </Link>
             </li>
           
            

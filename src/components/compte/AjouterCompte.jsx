@@ -18,7 +18,7 @@ export default function AjouterCompte() {
   return (
     <form onSubmit={handelForm}>
     <Input type='text' placeholder='Ajouter une Societe' value={societe} onChange={(e) => setSociete(e.target.value)} />
-    <Button type="submit">Ajouter</Button>
+    <Button type="submit" variant="contained" color="success" style={{margin:'10px'}}>Ajouter</Button>
 </form>
   )
 }

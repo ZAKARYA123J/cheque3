@@ -14,6 +14,7 @@ import ListeCompte from './components/compte/ListeCompte';
 import Listebanque from './components/banque/lListe';
 import './App.css'; // Import CSS file for layout styling
 import ListeCarnet from './components/carnet/ListeCarnet';
+import Suivi from './components/suivi/Suivi';
 function App() {
   return (
     <div className="App">
@@ -29,6 +30,7 @@ function App() {
               <Route path="compte" element={<ListeCompte />} />
               <Route path="banque" element={<Listebanque />} />
               <Route path="carnet" element={<ListeCarnet />} />
+              <Route path="cheque" element={<Suivi />} />
               <Route path="products">
                 <Route index element={<List />} />
                 <Route path=":productId" element={<Single />} />

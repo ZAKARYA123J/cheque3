@@ -50,7 +50,7 @@ function ListeCompte() {
                     <NumeroCompte societe={selectedSociete} societeId={selectedSocieteObject ? selectedSocieteObject.id : null} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
+                    <Button onClick={handleCloseDialog} variant="outlined" color="error">
                         Close
                     </Button>
                 </DialogActions>
@@ -61,7 +61,7 @@ function ListeCompte() {
                     <AjouterCompte insert={insert} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
+                    <Button onClick={handleCloseDialog} variant="outlined" color="error">
                         Close
                     </Button>
                 </DialogActions>
@@ -100,7 +100,7 @@ function ListeCompte() {
                     ))}
                 </TableBody>
             </Table>
-            <Button onClick={handleOpenInsertDialog} style={{ marginTop: '20px' }}>Insert Societe</Button>
+            <Button variant="contained" onClick={handleOpenInsertDialog} style={{ marginTop: '20px' }}>Insert Societe</Button>
         </div>
     );
 }

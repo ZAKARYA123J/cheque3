@@ -16,7 +16,7 @@ function Ajouter() {
   return (
     <div>
         <Input type='text' placeholder='Ajouter nouvau banque' onChange={(e)=>{setBanque(e.target.value)}}/>
-        <Button onClick={fetchData}>Ajouter</Button>
+        <Button onClick={fetchData} variant="contained" color="success" style={{margin:"10px"}}>Ajouter</Button>
     </div>
   )
 }

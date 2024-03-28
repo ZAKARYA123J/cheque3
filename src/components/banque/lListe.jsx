@@ -42,7 +42,7 @@ function Listebanque() {
     
     return (
         <>
-           <Button variant="contained" onClick={handleAddClick}>Ajouter nouveau banque <CgInsertAfterO fontSize={20}/></Button>
+           <Button variant="contained" onClick={handleAddClick} style={{margin:"20px"}}>Ajouter nouveau banque <CgInsertAfterO fontSize={20}/></Button>
           
             <TableContainer component={Paper} style={{ maxWidth: "70%", marginLeft: "10%",marginTop:'20px' }}>
                 <Table style={tableStyle} aria-label="simple table">
@@ -68,7 +68,7 @@ function Listebanque() {
                     <Ajouter handleClose={handleCloseDialog} />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog}>Annuler</Button>
+                    <Button onClick={handleCloseDialog} variant="outlined" color="error">Annuler</Button>
                 </DialogActions>
             </Dialog>
 

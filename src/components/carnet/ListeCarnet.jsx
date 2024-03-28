@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
+import './carnet.css';
 import Button from '@mui/material/Button';
 import { IoIosAddCircle } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
@@ -25,6 +25,7 @@ export default function ListeCarnet() {
   const [showInsertDialog, setShowInsertDialog] = useState(false);
   const [showChequeDialog, setShowChequeDialog] = useState(false);
   const [selectedCarnetId, setSelectedCarnetId] = useState(null);
+  // const [serie, setSerie] = useState(null);
   const [comptes, setComptes] = useState([]);
 
   useEffect(() => {
@@ -53,10 +54,14 @@ export default function ListeCarnet() {
   const handleCloseChequeDialog = () => {
     setShowChequeDialog(false);
   };
-  const handleRowClick = (id) => {
-    setSelectedCarnetId(id);
+  const handleRowClick = (id,serie) => {
+    setSelectedCarnetId({id,serie});
     setShowChequeDialog(true);
   };
+  // const handleRowClick2 = (serie) => {
+  //   setSelectedCarnetId(serie);
+  //   setShowChequeDialog(true);
+  // };
   return (
     <>
       <Button variant="contained" onClick={handleAddClick}>Ajouter nouveau <FaPlus /></Button>
@@ -81,7 +86,7 @@ export default function ListeCarnet() {
           </TableHead>
           <TableBody style={{ border: '1px solid black' }}>
   {carnets.map((carnet) => (
-    <TableRow key={carnet.id} onClick={() => handleRowClick(carnet.id)}>
+    <TableRow key={carnet.id} onClick={() => handleRowClick(carnet.id, carnet.serie)}>
       <TableCell>{carnet.id}</TableCell>
       <TableCell>{carnet.type}</TableCell>
       <TableCell>
@@ -115,7 +120,7 @@ export default function ListeCarnet() {
       <TableCell>{carnet.serie}</TableCell>
       <TableCell>{carnet.first}</TableCell>
       <TableCell>{carnet.last}</TableCell>
-      <TableCell>{carnet.remaining_checks}</TableCell>
+      <TableCell className={carnet.remaining_checks <= 10 ? 'low-checks' : ''}>{carnet.remaining_checks}</TableCell>
       <TableCell align="right">
                   <Button onClick={() => setShowChequeDialog(true)}>
                     <IoIosAddCircle fontSize={30} />
@@ -133,12 +138,14 @@ export default function ListeCarnet() {
           <InsertCarnet handleClose={handleCloseInsertDialog} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseInsertDialog}>Annuler</Button>
+          <Button onClick={handleCloseInsertDialog}  variant="outlined" color="error">Annuler</Button>
         </DialogActions>
       </Dialog>
       <Dialog open={showChequeDialog} onClose={handleCloseChequeDialog}>
         <DialogContent>
-          <Cheque handleClose={handleCloseChequeDialog} carnetId={selectedCarnetId} />
+        {selectedCarnetId && (
+      <Cheque handleClose={handleCloseChequeDialog} carnetId={selectedCarnetId.id} serie={selectedCarnetId.serie} />
+    )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseChequeDialog}>Annuler</Button>

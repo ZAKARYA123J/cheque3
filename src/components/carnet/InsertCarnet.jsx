@@ -107,9 +107,9 @@ function InsertCarnet() {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <TextField fullWidth type="number" label="Quantite Minimale" name="quantite_minimale" value={formData.quantite_minimale} onChange={handleChange} />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6}>
             <TextField fullWidth label="Serie" name="serie" value={formData.serie} onChange={handleChange} />
           </Grid>
@@ -120,10 +120,10 @@ function InsertCarnet() {
             <TextField fullWidth type="number" label="Last" name="last" value={formData.last} onChange={handleChange} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth type="number" label="Remaining Checks" name="remaining_checks" value={formData.remaining_checks} onChange={handleChange} />
+            <TextField fullWidth type="number" label="Nomber de cheque" name="remaining_checks" value={formData.remaining_checks} onChange={handleChange} />
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained" color="primary">Submit</Button>
+        <Button type="submit" variant="contained" color="success" style={{margin:"10px"}}>insert carnet</Button>
       </form>
       {errors && (
         <div>

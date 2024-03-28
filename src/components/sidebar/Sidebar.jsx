@@ -28,33 +28,33 @@ const Sidebar = () => {
             <li>
               <Link to={'/'} style={{textDecoration:'none'}}>
               <DashboardIcon className='icon' />
-              <span>Home</span>
+              <button style={{border:'none'}}>Home</button>
               </Link>
             </li>
             <p className="title">LISTS MENU</p>
             <li>
               <Link to={'banque'}  style={{textDecoration:'none'}}>
               <BsBank className='icon' />
-              <span>Bnaques</span>
+              <button style={{border:'none'}}>Bnaques</button>
               </Link>
             </li>
             <li>
               <Link to={'compte'} style={{textDecoration:'none'}}>
               <MdAccountCircle className='icon' />
-              <span>Comptes</span>
+              <button style={{border:'none'}}>Comptes</button>
               </Link>
             </li>
             <li>
               <Link to={'carnet'}  style={{textDecoration:'none'}}>
               <BiDockTop className='icon' />
-              <span>carnets</span>
+              <button style={{border:'none'}}>carnets</button>
               </Link>
             </li>
             <p className="title">OTHER MENU</p>
             <li>
               <QueryStatsIcon className='icon' />
               <Link to={'cheque'} style={{textDecoration:'none'}}>
-              <span>Suivi chéques/effects émis</span>
+              <button style={{border:'none'}}>Suivi chéques/effects émis</button>
               </Link>
             </li>
           

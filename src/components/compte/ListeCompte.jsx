@@ -42,6 +42,16 @@ function ListeCompte() {
         setInsert('');
         setOpenInsertDialog(true);
     };
+    const deleteCompte = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/comptes/${id}`);
+            // After deletion, you may want to update the state to reflect the changes
+            const updatedComptes = comptes.filter(compte => compte.id !== id);
+            setComptes(updatedComptes);
+        } catch (error) {
+            console.log('Error deleting compte:', error);
+        }
+    };
     const selectedSocieteObject = societes.find(societe => societe.Nomsociete === selectedSociete);
     return (
         <div style={{ padding: '20px' }}>
@@ -83,9 +93,11 @@ function ListeCompte() {
                             {comptes.map((compte) => {
                                 if (compte.societe_id === societe.id) {
                                     return (
-                                        <React.Fragment key={compte.id}>
-                                            <div>{compte.Compte}</div>
-                                            <div>{compte.banque.banque}</div>
+                                        <React.Fragment key={compte.id} >
+                                            <span>{compte.Compte}</span>|
+                                            <span>{compte.banque.banque}</span>
+                                            <Button onClick={() => deleteCompte(compte.id)} variant="contained" color="error" style={{margin:'4px'}}>supprimer</Button>
+                                            <br/>
                                         </React.Fragment>
                                     );
                                 }

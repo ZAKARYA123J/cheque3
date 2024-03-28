@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, TextField, Button } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, TextField, Button, Typography } from '@mui/material';
 import axios from 'axios';
 
 function NumeroCompte({ societe, societeId }) {
@@ -7,9 +7,9 @@ function NumeroCompte({ societe, societeId }) {
     const [compteData, setCompteData] = useState({
         Compte: '',
         societe_id: societeId,
-        banque_id: '' // Initialize banque_id state
+        banque_id: '',
     });
-    
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,14 +24,12 @@ function NumeroCompte({ societe, societeId }) {
         try {
             const response = await axios.post('http://localhost:8000/api/comptes', compteData);
             if (response.status === 201) {
-                console.log('Compte inserted successfully'); // Placeholder message
-                // Call any necessary callback function here
-                
+                console.log('Compte inserted successfully');
+                window.location.reload();
             }
-            window.location.reload()
-          
         } catch (error) {
-            console.log('Error inserting compte:', error);
+            console.error('Error inserting compte:', error);
+            setError('Une erreur s\'est produite lors de la soumission du formulaire.');
         }
     };
 
@@ -39,14 +37,15 @@ function NumeroCompte({ societe, societeId }) {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/banque');
-                const banqueId = response.data.length > 0 ? response.data[0].id : ''; // Get the id of the first banque
+                const banqueId = response.data.length > 0 ? response.data[0].id : '';
                 setBanque(response.data);
                 setCompteData(prevData => ({
                     ...prevData,
-                    id: banqueId // Set banque_id to the id of the first banque
+                    banque_id: banqueId
                 }));
             } catch (error) {
                 console.error('Error fetching banque data:', error);
+                setError('Une erreur s\'est produite lors du chargement des données.');
             }
         };
 
@@ -55,19 +54,19 @@ function NumeroCompte({ societe, societeId }) {
 
     return (
         <form style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '300px', margin: 'auto' }} onSubmit={handleSubmit}>
-            <p>Societe:{societe}</p>
-            <p>id:{societeId}</p>
+            <p>Societe: {societe}</p>
+            {error && <Typography variant="body1" color="error">{error}</Typography>}
             <FormControl>
-                <InputLabel htmlFor="banque">banque:</InputLabel>
+                <InputLabel htmlFor="banque">Banque:</InputLabel>
                 <Select
                     id="banque"
                     label="Banque"
-                    value={compteData.banque_id} // Set value to selected banque_id
+                    value={compteData.banque_id}
                     onChange={handleChange}
-                    name="banque_id" // Set name to banque_id
+                    name="banque_id"
                 >
                     {banques.map((banque, index) => (
-                        <MenuItem key={index} value={banque.id}>{banque.banque}</MenuItem> 
+                        <MenuItem key={index} value={banque.id}>{banque.banque}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
@@ -75,11 +74,11 @@ function NumeroCompte({ societe, societeId }) {
                 label="Numéro"
                 type="number"
                 variant="outlined"
-                onChange={handleChange} // Handle changes in the TextField
-                name="Compte" // Set name to Compte
-                value={compteData.Compte} // Set value to compteData.Compte
+                onChange={handleChange}
+                name="Compte"
+                value={compteData.Compte}
             />
-            <Button variant="contained" color="primary" type="submit">Submit</Button> {/* Add type="submit" */}
+            <Button variant="contained" color="success" type="submit">Insert Compte</Button>
         </form>
     );
 }

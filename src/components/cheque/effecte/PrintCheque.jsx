@@ -2,10 +2,10 @@
 import { useReactToPrint } from 'react-to-print';
 import { TextField,Button ,Grid,Paper } from '@mui/material';
 import React, { useState, useRef ,useEffect} from 'react';
-import img from './dev.jpg';
-import img2 from './banqe.jpg';
-import img3 from './cih.png'
-import impremt from './impremetb.png'
+// import img from './dev.jpg';
+// import img2 from './banqe.jpg';
+// import img3 from './cih.png'
+// import impremt from './impremetb.png'
 
 
 export default function PrintCheque() {

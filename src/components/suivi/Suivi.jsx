@@ -8,6 +8,7 @@ function Suivi() {
   const [carnets,setCarnets]=useState([])
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCheque, setSelectedCheque] = useState(null);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,7 +34,7 @@ function Suivi() {
     <div> <Dialog open={openDialog} onClose={handleCloseDialog}>
     <DialogTitle>Print Cheque</DialogTitle>
     <DialogContent>
-      {selectedCheque && <PrintCheque cheque={selectedCheque} />}
+      {selectedCheque && <PrintCheque cheque={selectedCheque}  montant={selectedCheque.montant} beneficiary={selectedCheque.beneficiary} />}
     </DialogContent>
     <DialogActions>
       <Button onClick={handleCloseDialog} variant="outlined" color="error">Close</Button>

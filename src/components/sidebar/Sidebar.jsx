@@ -1,77 +1,84 @@
-import './sidebar.scss'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import GroupIcon from '@mui/icons-material/Group';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
-import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import SettingsIcon from '@mui/icons-material/Settings';
-import PersonIcon from '@mui/icons-material/Person';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { BsBank } from "react-icons/bs";
-import { MdAccountCircle } from "react-icons/md";
-import { BiDockTop } from "react-icons/bi";
 import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import BsBankIcon from '@mui/icons-material/Business';
+import MdAccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BiDockTopIcon from '@mui/icons-material/Dock';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import SettingsIcon from '@mui/icons-material/Settings';
+
 const Sidebar = () => {
   return (
-    <div className='sidebar'style={{maxWidth:'20%'}}>
+    <Grid
+      container
+      direction="column"
+      sx={{
+        width: '100%',
+        backgroundColor: '#f0f0f0',
+        color: '#333',
+       
+        '@media (min-width: 960px)': {
+          width: '15%',
+        },
+      }}
+    >
+      <Grid item>
         <div className='top'>
-          <span className='logo'>OWR CONNECT</span>
+          <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>OWR CONNECT</span>
         </div>
         <hr />
+      </Grid>
+      <Grid item>
         <div className='center'>
-          <ul>
-            <p className="title">MAIN MENU</p>
-            <li>
-              <Link to={'/'} style={{textDecoration:'none'}}>
-              <DashboardIcon className='icon' />
-              <button style={{border:'none'}}>Home</button>
+          <ul style={{ padding: 0 }}>
+            <p className="title" style={{ fontWeight: 'bold', margin: '1rem', textAlign: 'center' }}>MAIN MENU</p>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0' }}>
+              <Link to={'/'} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+                <DashboardIcon style={{ marginRight: '0.5rem' }} />
+                Home
               </Link>
             </li>
-            <p className="title">LISTS MENU</p>
-            <li>
-              <Link to={'banque'}  style={{textDecoration:'none'}}>
-              <BsBank className='icon' />
-              <button style={{border:'none'}}>Bnaques</button>
+            <p className="title" style={{ fontWeight: 'bold', margin: '1rem', textAlign: 'center' }}>LISTS MENU</p>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0' }}>
+              <Link to={'banque'} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+                <BsBankIcon style={{ marginRight: '0.5rem' }} />
+                Banques
               </Link>
             </li>
-            <li>
-              <Link to={'compte'} style={{textDecoration:'none'}}>
-              <MdAccountCircle className='icon' />
-              <button style={{border:'none'}}>Comptes</button>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0' }}>
+              <Link to={'compte'} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+                <MdAccountCircleIcon style={{ marginRight: '0.5rem' }} />
+                Comptes
               </Link>
             </li>
-            <li>
-              <Link to={'carnet'}  style={{textDecoration:'none'}}>
-              <BiDockTop className='icon' />
-              <button style={{border:'none'}}>carnets</button>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0' }}>
+              <Link to={'carnet'} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+                <BiDockTopIcon style={{ marginRight: '0.5rem' }} />
+                Carnets
               </Link>
             </li>
-            <p className="title">OTHER MENU</p>
-            <li>
-              <QueryStatsIcon className='icon' />
-              <Link to={'cheque'} style={{textDecoration:'none'}}>
-              <button style={{border:'none'}}>Suivi chéques/effects émis</button>
+            <p className="title" style={{ fontWeight: 'bold', margin: '1rem', textAlign: 'center' }}>OTHER MENU</p>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+              <QueryStatsIcon style={{ marginRight: '0.5rem' }} />
+              <Link to={'cheque'} style={{ textDecoration: 'none' }}>
+                Suivi chéques/effects émis
               </Link>
             </li>
-          
-           
-            <li>
-              <SettingsIcon className='icon' />
-              <span>Settings</span>
+            <li style={{ listStyle: 'none', margin: '0.5rem 0', display: 'flex', alignItems: 'center', paddingLeft: '0.5rem' }}>
+              <SettingsIcon style={{ marginRight: '0.5rem' }} />
+              Settings
             </li>
-           
           </ul>
         </div>
+      </Grid>
+      <Grid item>
         <div className='bottom'>
           <div className='colorOptions'></div>
           <div className='colorOptions'></div>
         </div>
-    </div>
+      </Grid>
+    </Grid>
   )
 }
 
-export default Sidebar
+export default Sidebar;

@@ -8,11 +8,11 @@ import React, { useState, useRef ,useEffect} from 'react';
 // import impremt from './impremetb.png'
 
 
-export default function PrintCheque() {
+export default function PrintCheque({cheque,montant,beneficiary}) {
   const [inputValues, setInputValues] = useState({
-    Montant: '',
+    Montant: montant,
     Montantalphabit: '',
-    ordre: '',
+    ordre: beneficiary,
     Fait: '',
     Date: '',
   });
@@ -97,7 +97,6 @@ export default function PrintCheque() {
           type="number"
           name="Montant"
           value={inputValues.Montant}
-          onChange={handleChange}
           label="Montant"
           fullWidth
           margin="normal"
@@ -106,20 +105,21 @@ export default function PrintCheque() {
           type="text"
           name="Montantalphabit"
           value={inputValues.Montantalphabit}
-          onChange={handleChange}
+          
           label="Montant in letters"
           fullWidth
           margin="normal"
         />
-        <TextField
-          type="text"
-          name="ordre"
-          value={inputValues.ordre}
-          onChange={handleChange}
-          label="A l'ordre de"
-          fullWidth
-          margin="normal"
-        />
+       <TextField
+  type="text"
+  name="ordre"
+  value={inputValues.ordre}
+ // Add onChange handler here
+  label="A l'ordre de"
+  fullWidth
+  margin="normal"
+/>
+
         <TextField
           type="text"
           name="Fait"

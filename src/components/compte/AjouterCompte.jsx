@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Button, Typography } from '@mui/material';
+import { Input, Button, Typography,TextField } from '@mui/material';
 import axios from 'axios';
 
 export default function AjouterCompte() {
@@ -26,7 +26,7 @@ export default function AjouterCompte() {
 
     return (
         <form onSubmit={handelForm}>
-            <Input type='text' placeholder='Ajouter une Societe' value={societe} onChange={(e) => setSociete(e.target.value)} />
+            <TextField type='text' label='Ajouter une Societe' variant="outlined" value={societe} onChange={(e) => setSociete(e.target.value)} />
             <Button type="submit" variant="contained" color="success" style={{ margin: '10px' }}>Ajouter</Button>
             {errors && (
                 <div>

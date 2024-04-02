@@ -1,0 +1,38 @@
+/* Table */
+.Table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Table Head */
+  .TableHead {
+    background-color: #f2f2f2;
+  }
+  
+  .TableHead .TableCell {
+    border: 1px solid black;
+    padding: 8px;
+    font-weight: bold;
+  }
+  
+  /* Table Body */
+  .TableBody {
+    border: 1px solid black;
+  }
+  
+  /* Table Rows */
+  .TableRow {
+    border: 1px solid black;
+  }
+  
+  /* Table Cells */
+  .TableCell {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  
+  /* Additional styling for buttons */
+  .Button {
+    margin: 4px;
+  }
+  

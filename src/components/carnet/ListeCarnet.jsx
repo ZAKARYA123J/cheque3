@@ -4,6 +4,7 @@ import './carnet.css';
 import Button from '@mui/material/Button';
 import { IoIosAddCircle } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
+import { motion } from "framer-motion";
 import {
   Table,
   TableBody,
@@ -13,7 +14,6 @@ import {
   TableRow,
   Paper,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions
 } from '@mui/material';
@@ -25,7 +25,6 @@ export default function ListeCarnet() {
   const [showInsertDialog, setShowInsertDialog] = useState(false);
   const [showChequeDialog, setShowChequeDialog] = useState(false);
   const [selectedCarnetId, setSelectedCarnetId] = useState(null);
-  // const [serie, setSerie] = useState(null);
   const [comptes, setComptes] = useState([]);
 
   useEffect(() => {
@@ -35,7 +34,6 @@ export default function ListeCarnet() {
         const compteResponse = await axios.get('http://localhost:8000/api/comptes');
         setCarnet(response.data);
         setComptes(compteResponse.data);
-       
       } catch (error) {
         console.log('Error fetching data:', error);
       }
@@ -54,98 +52,108 @@ export default function ListeCarnet() {
   const handleCloseChequeDialog = () => {
     setShowChequeDialog(false);
   };
-  const handleRowClick = (id,serie) => {
-    setSelectedCarnetId({id,serie});
+
+  const handleRowClick = (id, serie) => {
+    setSelectedCarnetId({ id, serie });
     setShowChequeDialog(true);
   };
-  // const handleRowClick2 = (serie) => {
-  //   setSelectedCarnetId(serie);
-  //   setShowChequeDialog(true);
-  // };
+
   return (
     <>
-      <Button variant="contained" onClick={handleAddClick}>Ajouter nouveau <FaPlus /></Button>
+    <motion.button whileHover={{ scale: 1.1 }} // Animation on hover
+        whileTap={{ scale: 0.9 }} // Animation on tap // Animation on tap
+      style={{ margin: '20px', border: 'none' }} // Remove border
+      onClick={handleAddClick}>  <Button variant="contained">Ajouter nouveau carnet <FaPlus /></Button></motion.button>
+     
+      {/* <motion.button
+        whileHover={{ scale: 1.1 }} // Animation on hover
+        whileTap={{ scale: 0.9 }} // Animation on tap // Animation on tap
+      style={{ margin: '20px', border: 'none' }} // Remove border
+      onClick={handleAddClick}
+    >
+      <Button variant="contained" style={{ border: 'none' }}>Ajouter nouveau banque <CgInsertAfterO fontSize={20} /></Button>
+    </motion.button> */}
       <h3>les Carnets</h3>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginTop: '20px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
-            <TableRow>
+            <TableRow style={{ backgroundColor: 'lightblue' }}>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Type</TableCell>
-              <TableCell align="right">Compte</TableCell>
-              <TableCell align="right">societe</TableCell>
-              <TableCell align="right">Ville</TableCell>
-              <TableCell align="right">N° de Carnet</TableCell>
-              <TableCell align="right">Serie</TableCell>
-              <TableCell align="right">Debut</TableCell>
-              <TableCell align="right">Fin</TableCell>
-              <TableCell align="right">Reste</TableCell>
-              <TableCell align="right">Nouveau Cheque</TableCell>
-              <TableCell align="right">Supprimer</TableCell>
+              <TableCell  >Type</TableCell>
+              <TableCell >Compte</TableCell>
+              <TableCell >societe</TableCell>
+              <TableCell >Ville</TableCell>
+              <TableCell style={{fontWeight:'bold'}}>N° de Carnet</TableCell>
+              <TableCell >Serie</TableCell>
+              <TableCell >Reste</TableCell>
+              <TableCell >Nouveau Cheque</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody style={{ border: '1px solid black' }}>
-  {carnets.map((carnet) => (
-    <TableRow key={carnet.id} onClick={() => handleRowClick(carnet.id, carnet.serie)}>
-      <TableCell>{carnet.id}</TableCell>
-      <TableCell>{carnet.type}</TableCell>
-      <TableCell>
-        {comptes.map((compte) => {
-          if (compte.id=== carnet.id_comptes) {
-            return (
-              <React.Fragment key={compte.id}>
-                <div>{compte.Compte}</div>
-                <div>{compte.banque.banque}</div>
-              </React.Fragment>
-            );
-          }
-          return null;
-        })}
-      </TableCell>
-      <TableCell>
-        {comptes.map((compte) => {
-          if (compte.id=== carnet.id_comptes) {
-            return (
-              <React.Fragment key={compte.id}>
-               
-                <div>{compte.societe.Nomsociete}</div>
-              </React.Fragment>
-            );
-          }
-          return null;
-        })}
-      </TableCell>
-      <TableCell>{carnet.ville}</TableCell>
-      <TableCell>{carnet.cosdecarnet}</TableCell>
-      <TableCell>{carnet.serie}</TableCell>
-      <TableCell>{carnet.first}</TableCell>
-      <TableCell>{carnet.last}</TableCell>
-      <TableCell className={carnet.remaining_checks <= 10 ? 'low-checks' : ''}>{carnet.remaining_checks}</TableCell>
-      <TableCell align="right">
+          <TableBody sx={{ border: '1px solid black' }}>
+            {carnets.map((carnet) => (
+              <motion.tr 
+              key={carnet.id}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              onClick={() => handleRowClick(carnet.id, carnet.serie)}
+              sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}
+            >
+                <TableCell>{carnet.id}</TableCell>
+                <TableCell>{carnet.type}</TableCell>
+                <TableCell>
+                  {comptes.map((compte) => {
+                    if (compte.id === carnet.id_comptes) {
+                      return (
+                        <React.Fragment key={compte.id}>
+                          <div>{compte.Compte}</div>
+                          <div>{compte.banque.banque}</div>
+                        </React.Fragment>
+                      );
+                    }
+                    return null;
+                  })}
+                </TableCell>
+                <TableCell>
+                  {comptes.map((compte) => {
+                    if (compte.id === carnet.id_comptes) {
+                      return (
+                        <React.Fragment key={compte.id}>
+                          <div>{compte.societe.Nomsociete}</div>
+                        </React.Fragment>
+                      );
+                    }
+                    return null;
+                  })}
+                </TableCell>
+                <TableCell>{carnet.ville}</TableCell>
+                <TableCell>{carnet.cosdecarnet}</TableCell>
+                <TableCell>{carnet.serie}</TableCell>
+                <TableCell className={carnet.remaining_checks <= 10 ? 'low-checks' : ''}>{carnet.remaining_checks}</TableCell>
+                <TableCell align="right">
                   <Button onClick={() => setShowChequeDialog(true)}>
                     <IoIosAddCircle fontSize={30} />
                   </Button>
                 </TableCell>
-
-    </TableRow>
-  ))}
-</TableBody>
-
+              </motion.tr >
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
+
       <Dialog open={showInsertDialog} onClose={handleCloseInsertDialog}>
         <DialogContent>
           <InsertCarnet handleClose={handleCloseInsertDialog} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseInsertDialog}  variant="outlined" color="error">Annuler</Button>
+          <Button onClick={handleCloseInsertDialog} variant="outlined" color="error">Annuler</Button>
         </DialogActions>
       </Dialog>
       <Dialog open={showChequeDialog} onClose={handleCloseChequeDialog}>
         <DialogContent>
-        {selectedCarnetId && (
-      <Cheque handleClose={handleCloseChequeDialog} carnetId={selectedCarnetId.id} serie={selectedCarnetId.serie} />
-    )}
+          {selectedCarnetId && (
+            <Cheque handleClose={handleCloseChequeDialog} carnetId={selectedCarnetId.id} serie={selectedCarnetId.serie} remainingChecks={carnets.find(carnet => carnet.id === selectedCarnetId.id)?.remaining_checks} />
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseChequeDialog}>Annuler</Button>

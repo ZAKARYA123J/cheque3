@@ -25,8 +25,9 @@ function NumeroCompte({ societe, societeId }) {
             const response = await axios.post('http://localhost:8000/api/comptes', compteData);
             if (response.status === 201) {
                 console.log('Compte inserted successfully');
-                window.location.reload();
+             
             }
+            window.location.reload();
         } catch (error) {
             console.error('Error inserting compte:', error);
             setError('Une erreur s\'est produite lors de la soumission du formulaire.');

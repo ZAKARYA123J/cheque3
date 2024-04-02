@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button,Dialog, DialogTitle, DialogContent, DialogActions  } from '@mui/material';
 import { FaPrint } from "react-icons/fa";
 import PrintCheque from '../cheque/effecte/PrintCheque';
@@ -41,41 +42,50 @@ function Suivi() {
     </DialogActions>
   </Dialog>
     <TableContainer component={Paper}>
-      <h3>les cheques</h3>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Carnet</TableCell>
-            <TableCell>N° Cheque</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell>Date d'émission</TableCell>
-            <TableCell>Date de paiement</TableCell>
-            <TableCell>Bénéficiaire</TableCell>
-            <TableCell>Montant</TableCell>
-            <TableCell>Concerne</TableCell>
-            <TableCell>Remarques</TableCell>
-            <TableCell>Print<FaPrint/> </TableCell>
-          </TableRow>
-        </TableHead>
+      <TableHead style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}>
+    <TableRow>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Carnet</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>N° Cheque</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Type</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Date d'émission</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Date de paiement</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Bénéficiaire</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Montant</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Concerne</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Remarques</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Print<FaPrint/></TableCell>
+    </TableRow>
+</TableHead>
+
+
         <TableBody>
           {cheques.map((cheque) => (
-            <TableRow key={cheque.id}>
+           <motion.tr
+           key={cheque.id}
+           initial={{ opacity: 0, y: -20 }} // Initial animation properties
+           animate={{ opacity: 1, y: 0 }} // Animation properties to animate to
+           transition={{ duration: 0.5, delay: 0.1 }} // Transition duration and delay
+         >
+           <TableCell>{cheque.carnet ? cheque.carnet.cosdecarnet : ''}</TableCell>
+           <TableCell>{cheque.cheque_number}</TableCell>
+           <TableCell>{cheque.carnet ? cheque.carnet.type : ''}</TableCell>
+           <TableCell>{cheque.emission_date}</TableCell>
+           <TableCell>{cheque.payment_date}</TableCell>
+           <TableCell>{cheque.beneficiary}</TableCell>
+           <TableCell>{cheque.montant}</TableCell>
+           <TableCell>{cheque.concern}</TableCell>
+           <TableCell>{cheque.remarks}</TableCell>
            <TableCell>
-            {cheque.carnet ? cheque.carnet.cosdecarnet : ''}</TableCell>
-        
-
-
-            <TableCell>{cheque.cheque_number}</TableCell>
-            <TableCell>
-            {cheque.carnet ? cheque.carnet.type : ''}</TableCell>
-            <TableCell>{cheque.emission_date}</TableCell>
-            <TableCell>{cheque.payment_date}</TableCell>
-            <TableCell>{cheque.beneficiary}</TableCell>
-            <TableCell>{cheque.montant}</TableCell>
-            <TableCell>{cheque.concern}</TableCell>
-            <TableCell>{cheque.remarks}</TableCell>
-            <TableCell>  <Button onClick={() => handlePrintCheque(cheque)}>Print cheque</Button></TableCell>
-          </TableRow>
+             <motion.button
+               onClick={() => handlePrintCheque(cheque)}
+               whileHover={{ scale: 1.1 }} // Animation on hover
+               whileTap={{ scale: 0.9 }} // Animation on tap
+             >
+               Print cheque
+             </motion.button>
+           </TableCell>
+         </motion.tr>
           
           ))}
         </TableBody>

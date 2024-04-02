@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Grid, Select, MenuItem, InputLabel } from '@mui/material';
 
 function InsertCarnet() {
+ 
   const [formData, setFormData] = useState({
     type: '',
     ville: '',
@@ -17,12 +18,15 @@ function InsertCarnet() {
   });
   const [comptes, setComptes] = useState([]);
   const [errors, setErrors] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/comptes');
         setComptes(response.data);
+        
       } catch (error) {
         console.log('error', error);
       }
@@ -57,12 +61,11 @@ function InsertCarnet() {
         id_comptes: '',
         quantite_minimale: '',
         serie: '',
-        first: '',
-        last: '',
         remaining_checks: ''
       });
       window.location.reload()
       setErrors(null);
+      window.alert(`Carnet successfully created. N° de Carnet: ${response.data.cosdecarnet}`)
     } catch (error) {
       console.error('Error:', error.response.data);
       setErrors(error.response.data.errors);
@@ -70,27 +73,33 @@ function InsertCarnet() {
   };
 
   return (
+    <>
+   
     <Container>
+    
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}  >
           <InputLabel id="type-label">Type</InputLabel>
             <Select
+           
               fullWidth
               labelId="type-label"
               label="Type"
               name="type"
               value={formData.type}
               onChange={handleChange}
+              variant="outlined"
+              sx={{ width: '80%' }}
             >
               <MenuItem value="cheque">Cheque</MenuItem>
               <MenuItem value="effect">Effect</MenuItem>
             </Select>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Ville" name="ville" value={formData.ville} onChange={handleChange} />
+          <Grid item xs={12} sm={12}>
+            <TextField fullWidth label="Ville" name="ville" value={formData.ville}  sx={{ width: '80%' }} onChange={handleChange} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <InputLabel id="comptes-label">Comptes</InputLabel>
             <Select
               fullWidth
@@ -98,6 +107,7 @@ function InsertCarnet() {
               label="Comptes"
               name="id_comptes"
               value={formData.id_comptes}
+              sx={{ width: '80%' }}
               onChange={handleSelectChange} // Using handleSelectChange for <Select> component
             >
               {comptes.map(compte => (
@@ -110,17 +120,11 @@ function InsertCarnet() {
           {/* <Grid item xs={12} sm={6}>
             <TextField fullWidth type="number" label="Quantite Minimale" name="quantite_minimale" value={formData.quantite_minimale} onChange={handleChange} />
           </Grid> */}
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label="Serie" name="serie" value={formData.serie} onChange={handleChange} />
+          <Grid item xs={12} sm={12}>
+            <TextField fullWidth label="Serie" name="serie" value={formData.serie}  sx={{ width: '80%' }} onChange={handleChange} />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth type="number" label="First" name="first" value={formData.first} onChange={handleChange} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth type="number" label="Last" name="last" value={formData.last} onChange={handleChange} />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth type="number" label="Nomber de cheque" name="remaining_checks" value={formData.remaining_checks} onChange={handleChange} />
+          <Grid item xs={12} sm={12}>
+            <TextField fullWidth type="number" label="Nomber de cheque" name="remaining_checks"  sx={{ width: '80%' }} value={formData.remaining_checks} onChange={handleChange} />
           </Grid>
         </Grid>
         <Button type="submit" variant="contained" color="success" style={{margin:"10px"}}>insert carnet</Button>
@@ -135,7 +139,9 @@ function InsertCarnet() {
           </ul>
         </div>
       )}
+       
     </Container>
+    </>
   );
 }
 

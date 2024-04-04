@@ -65,7 +65,9 @@ function InsertCarnet() {
       });
       window.location.reload()
       setErrors(null);
+     
       window.alert(`Carnet successfully created. N° de Carnet: ${response.data.cosdecarnet}`)
+      
     } catch (error) {
       console.error('Error:', error.response.data);
       setErrors(error.response.data.errors);

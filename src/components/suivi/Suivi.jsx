@@ -3,7 +3,9 @@ import axios from 'axios';
 import { motion } from 'framer-motion'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button,Dialog, DialogTitle, DialogContent, DialogActions  } from '@mui/material';
 import { FaPrint } from "react-icons/fa";
+import { DataGrid } from '@mui/x-data-grid';
 import PrintCheque from '../cheque/effecte/PrintCheque';
+import { FiPrinter } from "react-icons/fi";
 function Suivi() {
   const [cheques, setCheques] = useState([]);
   const [carnets,setCarnets]=useState([])
@@ -31,6 +33,32 @@ function Suivi() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  const columns = [
+    { field: 'carnet', headerName: 'Carnet', flex: 1, valueGetter: (params) => params.row.carnet ? params.row.carnet.cosdecarnet : '' },
+    { field: 'cheque_number', headerName: 'N° Cheque', flex: 1 },
+    { field: 'type', headerName: 'Type', flex: 1, valueGetter: (params) => params.row.carnet ? params.row.carnet.type : '' },
+    { field: 'emission_date', headerName: 'Date d\'émission', flex: 1 },
+    { field: 'payment_date', headerName: 'Date de paiement', flex: 1 },
+    { field: 'beneficiary', headerName: 'Bénéficiaire', flex: 1 },
+    { field: 'montant', headerName: 'Montant', flex: 1 },
+    { field: 'concern', headerName: 'Concerne', flex: 1 },
+    { field: 'remarks', headerName: 'Remarques', flex: 1 },
+    {
+      field: 'print',
+      headerName: 'Print',
+      flex: 1,
+      renderCell: (params) => (
+        <Button
+          onClick={() => handlePrintCheque(params.row)}
+          variant="outlined"
+          color="primary"
+          startIcon={<FaPrint />}
+        >
+          Print cheque
+        </Button>
+      ),
+    },
+  ];
   return (
     <div> <Dialog open={openDialog} onClose={handleCloseDialog}>
     <DialogTitle>Print Cheque</DialogTitle>
@@ -43,18 +71,18 @@ function Suivi() {
   </Dialog>
     <TableContainer component={Paper}>
       <Table>
-      <TableHead style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}>
+      <TableHead style={{ backgroundColor: '#b0c4de' }}>
     <TableRow>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Carnet</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>N° Cheque</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Type</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Date d'émission</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Date de paiement</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Bénéficiaire</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Montant</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Concerne</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Remarques</TableCell>
-        <TableCell style={{ borderBottom: '2px solid #ccc' }}>Print<FaPrint/></TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Carnet</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc',fontWeight: 'bold' }}>N° Cheque</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Type</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Date d'émission</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Date de paiement</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Bénéficiaire</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Montant</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Concerne</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Remarques</TableCell>
+        <TableCell style={{ borderBottom: '2px solid #ccc' ,fontWeight: 'bold'}}>Print<FaPrint/></TableCell>
     </TableRow>
 </TableHead>
 
@@ -81,8 +109,9 @@ function Suivi() {
                onClick={() => handlePrintCheque(cheque)}
                whileHover={{ scale: 1.1 }} // Animation on hover
                whileTap={{ scale: 0.9 }} // Animation on tap
+              style={{backgroundColor:'white',color:'#00bfff ' ,border:'none'}}
              >
-               Print cheque
+              <FiPrinter fontSize={25}/>
              </motion.button>
            </TableCell>
          </motion.tr>

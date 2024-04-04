@@ -6,7 +6,7 @@ import React, { useState, useRef ,useEffect} from 'react';
 // import img2 from './banqe.jpg';
 // import img3 from './cih.png'
 // import impremt from './impremetb.png'
-
+import img from './mr.jpeg'
 
 export default function PrintCheque({cheque,montant,beneficiary}) {
   const [inputValues, setInputValues] = useState({
@@ -153,7 +153,7 @@ export default function PrintCheque({cheque,montant,beneficiary}) {
 
 const ComponentToPrint = React.forwardRef(({ values }, ref) => (
   <div ref={ref} style={{ 
-   
+    // backgroundImage: `url(${img})`,
       backgroundRepeat: 'no-repeat', 
       backgroundSize: 'cover', 
       height: '7.9cm',
@@ -161,12 +161,12 @@ const ComponentToPrint = React.forwardRef(({ values }, ref) => (
       marginTop: '-15px',
       position: 'relative',
     }}>
-      <div style={{color:'green',fontWeight:'bold'}}>
-        <p style={{marginLeft:'500px',marginTop:'22px'}}># {values.Montant}#</p>
-        <p style={{marginLeft:'300px',marginTop:'20px'}}>{values.Montantalphabit}</p>
-        <p style={{paddingLeft:'300px',paddingTop:"6px"}}> {values.ordre}</p>
-        <p style={{marginLeft:"320px",marginTop:'30px'}}>{values.Fait}</p>
-        <p style={{marginLeft:"550px",marginTop:'-35px'}}>{values.Date}</p>
+      <div style={{fontWeight:'bold'}}>
+        <p style={{marginLeft:'500px',paddingTop:'15px'}}># {values.Montant}#</p>
+        <p style={{marginLeft:'300px',paddingTop:'15px'}}>{values.Montantalphabit}</p>
+        <p style={{paddingLeft:'300px',paddingTop:"30px"}}> {values.ordre}</p>
+        <p style={{marginLeft:"320px",paddingTop:'25px'}}>{values.Fait}</p>
+        <p style={{marginLeft:"550px",paddingButtom:'50px'}}>{values.Date}</p>
         
       </div>
       

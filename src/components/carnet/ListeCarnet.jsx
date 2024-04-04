@@ -4,7 +4,7 @@ import './carnet.css';
 import Button from '@mui/material/Button';
 import { IoIosAddCircle } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, useScroll  } from "framer-motion";
 import {
   Table,
   TableBody,
@@ -26,6 +26,7 @@ export default function ListeCarnet() {
   const [showChequeDialog, setShowChequeDialog] = useState(false);
   const [selectedCarnetId, setSelectedCarnetId] = useState(null);
   const [comptes, setComptes] = useState([]);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,45 +61,40 @@ export default function ListeCarnet() {
 
   return (
     <>
-    <motion.button whileHover={{ scale: 1.1 }} // Animation on hover
-        whileTap={{ scale: 0.9 }} // Animation on tap // Animation on tap
-      style={{ margin: '20px', border: 'none' }} // Remove border
-      onClick={handleAddClick}>  <Button variant="contained">Ajouter nouveau carnet <FaPlus /></Button></motion.button>
-     
-      {/* <motion.button
-        whileHover={{ scale: 1.1 }} // Animation on hover
-        whileTap={{ scale: 0.9 }} // Animation on tap // Animation on tap
-      style={{ margin: '20px', border: 'none' }} // Remove border
-      onClick={handleAddClick}
-    >
-      <Button variant="contained" style={{ border: 'none' }}>Ajouter nouveau banque <CgInsertAfterO fontSize={20} /></Button>
-    </motion.button> */}
+      <motion.button whileHover={{ scale: 1.1 }} // Animation on hover
+        whileTap={{ scale: 0.9 }} // Animation on tap
+        style={{ margin: '20px', border: 'none' }} // Remove border
+        onClick={handleAddClick}>
+        <Button variant="contained">Ajouter nouveau carnet <FaPlus /></Button>
+      </motion.button>
+
       <h3>les Carnets</h3>
+      <motion.div style={{ scaleX: scrollYProgress }} />
       <TableContainer component={Paper} sx={{ marginTop: '20px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow style={{ backgroundColor: 'lightblue' }}>
               <TableCell>ID</TableCell>
-              <TableCell  >Type</TableCell>
-              <TableCell >Compte</TableCell>
-              <TableCell >societe</TableCell>
-              <TableCell >Ville</TableCell>
-              <TableCell style={{fontWeight:'bold'}}>N° de Carnet</TableCell>
-              <TableCell >Serie</TableCell>
-              <TableCell >Reste</TableCell>
-              <TableCell >Nouveau Cheque</TableCell>
+              <TableCell>Type</TableCell>
+              <TableCell>Compte</TableCell>
+              <TableCell>societe</TableCell>
+              <TableCell>Ville</TableCell>
+              <TableCell style={{ fontWeight: 'bold' }}>N° de Carnet</TableCell>
+              <TableCell>Serie</TableCell>
+              <TableCell>Reste</TableCell>
+              <TableCell>Nouveau Cheque</TableCell>
             </TableRow>
           </TableHead>
           <TableBody sx={{ border: '1px solid black' }}>
             {carnets.map((carnet) => (
-              <motion.tr 
-              key={carnet.id}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              onClick={() => handleRowClick(carnet.id, carnet.serie)}
-              sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}
-            >
+              <motion.tr
+                key={carnet.id}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                // onClick={() => handleRowClick(carnet.id, carnet.serie)}
+                sx={{ '&:hover': { backgroundColor: '#f5f5f5' } }}
+              >
                 <TableCell>{carnet.id}</TableCell>
                 <TableCell>{carnet.type}</TableCell>
                 <TableCell>
@@ -131,15 +127,17 @@ export default function ListeCarnet() {
                 <TableCell>{carnet.serie}</TableCell>
                 <TableCell className={carnet.remaining_checks <= 10 ? 'low-checks' : ''}>{carnet.remaining_checks}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => setShowChequeDialog(true)}>
-                    <IoIosAddCircle fontSize={30} />
-                  </Button>
+                  <motion.button style={{border:'none'}}  whileTap={{ scale: 0.85 }} onClick={(e) => { handleRowClick(carnet.id, carnet.serie); setShowChequeDialog(true); e.stopPropagation(); }}>
+                  <Button  > <FaPlus /></Button> 
+                  </motion.button>
+
                 </TableCell>
               </motion.tr >
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
 
       <Dialog open={showInsertDialog} onClose={handleCloseInsertDialog}>
         <DialogContent>
@@ -159,6 +157,7 @@ export default function ListeCarnet() {
           <Button onClick={handleCloseChequeDialog}>Annuler</Button>
         </DialogActions>
       </Dialog>
+
     </>
   );
 }

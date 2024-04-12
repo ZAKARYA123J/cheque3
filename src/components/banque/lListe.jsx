@@ -5,6 +5,7 @@ import {motion} from 'framer-motion'
 import { CgInsertAfterO } from "react-icons/cg";
 import axios from 'axios';
 import { CiBank } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
 
 function Listebanque() {
     const [showDialog, setShowDialog] = useState(false);
@@ -55,10 +56,10 @@ function Listebanque() {
             <TableContainer component={Paper} style={{ maxWidth: "70%", marginLeft: "10%",marginTop:'20px' }}>
                 <Table style={tableStyle} aria-label="simple table">
                     <TableBody>
-                        <TableRow>
-                            <TableCell style={{  fontWeight: 'bold' }}>banque 
+                        <TableRow style={{backgroundColor:'#008b8b'}}>
+                            <TableCell style={{  fontWeight: 'bold',color:'#f5f5f5' }}>banque 
  </TableCell>
-                            <TableCell style={{ fontWeight: 'bold' }}>supprimer</TableCell>
+                            <TableCell style={{ fontWeight: 'bold',color:"#f0f0f0" }}>supprimer</TableCell>
                         </TableRow>
                         {banque.map((item,index)=>(
                         <motion.tr key={index}
@@ -68,7 +69,7 @@ function Listebanque() {
                             <TableCell>{item.banque}</TableCell>
                            
                             <TableCell>
-                            <Button color="error" onClick={() => handleDeleteBanque(item.id)}>Supprimer</Button>
+                            <Button  onClick={() => handleDeleteBanque(item.id)}><MdDelete fontSize={25} color='black'/></Button>
                             </TableCell>
                         </motion.tr>
                         ))}

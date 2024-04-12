@@ -7,15 +7,19 @@ import React, { useState, useRef ,useEffect} from 'react';
 // import img3 from './cih.png'
 // import impremt from './impremetb.png'
 import img from './mr.jpeg'
+import axios from 'axios';
 
-export default function PrintCheque({cheque,montant,beneficiary}) {
+export default function PrintCheque({cheque,montant,beneficiary,chequeId}) {
   const [inputValues, setInputValues] = useState({
-    Montant: montant,
-    Montantalphabit: '',
+    montant: montant,
+    montant_lettere: '',
     ordre: beneficiary,
-    Fait: '',
-    Date: '',
+    place: '',
+    date: '',
+    cheque_id:chequeId,
   });
+ 
+  const [print,setPrint]=useState(false)
   function NumberToLetter(nombre) {
     // Define your Unite and Dizaine functions here as you did before
   
@@ -61,15 +65,15 @@ export default function PrintCheque({cheque,montant,beneficiary}) {
   }
   
   useEffect(() => {
-    const montantNumeric = parseFloat(inputValues.Montant);
+    const montantNumeric = parseFloat(inputValues.montant);
     if (!isNaN(montantNumeric)) {
       const montantAsText = NumberToLetter(Math.floor(montantNumeric));
       setInputValues(prevState => ({
         ...prevState,
-        Montantalphabit: montantAsText,
+        montant_lettere: montantAsText,
       }));
     }
-  }, [inputValues.Montant]);
+  }, [inputValues.montant]);
   // const handleMontantChange = (e) => {
   //   setInputValues(prevState => ({
   //     ...prevState,
@@ -89,22 +93,52 @@ export default function PrintCheque({cheque,montant,beneficiary}) {
       [name]: value,
     }));
   };
+  const handleForm = async (e) => {
+    e.preventDefault(); // Corrected typo
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/print', inputValues);
+      console.log('data has been sent', response.data);
+      // Only print if API call is successful
+      handlePrint();
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/print/${chequeId}`);
+            const printedCheque = response.data.printedCheque;
+            setPrint(printedCheque.printed === 1);
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    };
+
+    fetchData();
+}, [chequeId]);
+
+
 
   return (
     <>
         <Paper elevation={3} style={{ padding: 20,width:'60%',marginLeft:"100px" }}>
+        <p>
+          {chequeId}
+        </p>
+        <form onSubmit={handleForm}>
         <TextField
           type="number"
-          name="Montant"
-          value={inputValues.Montant}
+          name="montant"
+          value={inputValues.montant}
           label="Montant"
           fullWidth
           margin="normal"
         />
         <TextField
           type="text"
-          name="Montantalphabit"
-          value={inputValues.Montantalphabit}
+          name="montant_lettere"
+          value={inputValues.montant_lettere}
           
           label="Montant in letters"
           fullWidth
@@ -118,27 +152,34 @@ export default function PrintCheque({cheque,montant,beneficiary}) {
   label="A l'ordre de"
   fullWidth
   margin="normal"
+  required
 />
 
         <TextField
           type="text"
-          name="Fait"
-          value={inputValues.Fait}
+          name="place"
+          value={inputValues.place}
           onChange={handleChange}
           label="Fait a"
           fullWidth
           margin="normal"
+          required
         />
         <TextField
           type="date"
-          name="Date"
-          value={inputValues.Date}
+          name="date"
+          value={inputValues.date}
           onChange={handleChange}
-         
           fullWidth
           margin="normal"
+          required
         />
-        <Button variant="outlined"  onClick={handlePrint}>Print votre cheque</Button>
+         {print ? (
+                <p>Cheque has already been printed</p>
+            ) : (
+                <button onClick={handlePrint}>Print Cheque</button>
+            )}
+    </form>
       </Paper>
    
     
@@ -163,10 +204,10 @@ const ComponentToPrint = React.forwardRef(({ values }, ref) => (
     }}>
       <div style={{fontWeight:'bold'}}>
         <p style={{marginLeft:'500px',paddingTop:'15px'}}># {values.Montant}#</p>
-        <p style={{marginLeft:'300px',paddingTop:'15px'}}>{values.Montantalphabit}</p>
+        <p style={{marginLeft:'300px',paddingTop:'15px'}}>{values.montant_lettere}</p>
         <p style={{paddingLeft:'300px',paddingTop:"30px"}}> {values.ordre}</p>
-        <p style={{marginLeft:"320px",paddingTop:'25px'}}>{values.Fait}</p>
-        <p style={{marginLeft:"550px",paddingButtom:'50px'}}>{values.Date}</p>
+        <p style={{marginLeft:"320px",paddingTop:'25px'}}>{values.place}</p>
+        <p style={{marginLeft:"550px",paddingButtom:'50px'}}>{values.date}</p>
         
       </div>
       

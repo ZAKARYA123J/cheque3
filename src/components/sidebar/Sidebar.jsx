@@ -24,7 +24,7 @@ const Sidebar = () => {
     >
       <Grid item>
         <div className='top'>
-          <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>OWR CONNECT</span>
+          <span style={{ fontSize: '1.5rem', fontWeight: 'bold',color:'#6495ed',marginLeft:'4px' }}>OWR CONNECT</span>
         </div>
         <hr />
       </Grid>

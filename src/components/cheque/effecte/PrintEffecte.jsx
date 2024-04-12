@@ -4,13 +4,15 @@ import { styled } from '@mui/system';
 import { useReactToPrint } from 'react-to-print';
 
 import { MdPrint } from "react-icons/md";
-function Effecte() {
+function PrintEffecte({Effecte,montant2,beneficiary,chequeId}) {
     const [inputValues, setInputValues] = useState({
         date: '',
-        Montant:'',
+        Montant:montant2,
         Montantalphabit: '',
-        beneficaire: ''
+        beneficaire: beneficiary,
+        cheque_id:chequeId,
       });
+      console.log(chequeId)
       function NumberToLetter(nombre) {
         // Define your Unite and Dizaine functions here as you did before
       
@@ -192,4 +194,4 @@ function Effecte() {
   )
 }
 
-export default Effecte
+export default PrintEffecte

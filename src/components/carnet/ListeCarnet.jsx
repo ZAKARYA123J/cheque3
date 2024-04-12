@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { IoIosAddCircle } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { motion, useScroll  } from "framer-motion";
+import { MdDeleteOutline } from "react-icons/md";
 import {
   Table,
   TableBody,
@@ -58,6 +59,14 @@ export default function ListeCarnet() {
     setSelectedCarnetId({ id, serie });
     setShowChequeDialog(true);
   };
+  const deletCarnet=async(id)=>{
+      try{
+          await axios.delete(`http://localhost:8000/api/carnets/${id}`)
+          setCarnet(carnets.filter(carnet=> carnet.id !== id))
+      }catch(error){
+        console.log('error',error)
+      }
+  }
 
   return (
     <>
@@ -83,6 +92,7 @@ export default function ListeCarnet() {
               <TableCell>Serie</TableCell>
               <TableCell>Reste</TableCell>
               <TableCell>Nouveau Cheque</TableCell>
+              <TableCell>supprimer</TableCell>
             </TableRow>
           </TableHead>
           <TableBody sx={{ border: '1px solid black' }}>
@@ -132,6 +142,7 @@ export default function ListeCarnet() {
                   </motion.button>
 
                 </TableCell>
+                <TableCell> <Button onClick={()=>deletCarnet(carnet.id)}><MdDeleteOutline fontSize={25}/></Button></TableCell>
               </motion.tr >
             ))}
           </TableBody>

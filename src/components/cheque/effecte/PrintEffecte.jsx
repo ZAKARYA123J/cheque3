@@ -2,17 +2,17 @@ import React,{useState,useEffect,useRef} from 'react'
 import { TextField, Button,Container,Paper   } from '@mui/material';
 import { styled } from '@mui/system';
 import { useReactToPrint } from 'react-to-print';
-
+import axios from 'axios';
 import { MdPrint } from "react-icons/md";
 function PrintEffecte({Effecte,montant2,beneficiary,chequeId}) {
     const [inputValues, setInputValues] = useState({
         date: '',
-        Montant:montant2,
-        Montantalphabit: '',
+        montant:montant2,
+        montant_lettere: '',
         beneficaire: beneficiary,
         cheque_id:chequeId,
       });
-      console.log(chequeId)
+      const [print,setPrint]=useState(false)
       function NumberToLetter(nombre) {
         // Define your Unite and Dizaine functions here as you did before
       
@@ -60,15 +60,15 @@ function PrintEffecte({Effecte,montant2,beneficiary,chequeId}) {
       }
       
       useEffect(() => {
-        const montantNumeric = parseFloat(inputValues.Montant);
+        const montantNumeric = parseFloat(inputValues.montant);
         if (!isNaN(montantNumeric)) {
           const montantAsText = NumberToLetter(Math.floor(montantNumeric));
           setInputValues(prevState => ({
             ...prevState,
-            Montantalphabit: montantAsText,
+            montant_lettere: montantAsText,
           }));
         }
-      }, [inputValues.Montant,NumberToLetter]);
+      }, [inputValues.montant,NumberToLetter]);
       const handleMontantChange = (e) => {
         setInputValues(prevState => ({
           ...prevState,
@@ -130,52 +130,69 @@ function PrintEffecte({Effecte,montant2,beneficiary,chequeId}) {
       //   textAlign: 'right',
       //   paddingRight: '10px',
       // });
+      const handelform = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/printEffecte', inputValues);
+          console.log('data has been sent', response.data);
+          const printeEffecte = response.data.printeffecte;
+          setPrint(printeEffecte.printed === 1);
+        } catch (error) {
+          console.log('error', error);
+        }
+      }
   return (
     <div>
       <Container>
   <Paper elevation={3} style={{ padding: 20, width:'60%',marginLeft:"100px" }}>
-    <div>
-      <TextField
-        name="Montant"
-        type='number'
-        label="Montant"
-        variant="outlined"
-        value={inputValues.Montant}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        name="Montantalphabit"
-        label="Montantalphabit"
-        variant="outlined"
-        value={inputValues.Montantalphabit}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        name="date"
-        type='date'
-        variant="outlined"
-        value={inputValues.date}
-        onChange={handleInputChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        type="text"
-        name="beneficaire"
-        value={inputValues.beneficaire}
-        onChange={handleInputChange}
-        placeholder="A l'ordre de"
-        fullWidth
-        margin="normal"
-      />
-    </div>
-    <Button variant="contained" color="primary" onClick={handlePrint}>
-    Print Effecte <MdPrint />
-  </Button>
+  <form onSubmit={handelform}>
+          <TextField
+            name="montant"
+            type='number'
+            label="Montant"
+            variant="outlined"
+            value={inputValues.montant}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="Montantalphabit"
+            label="Montantalphabit"
+            variant="outlined"
+            value={inputValues.montant_lettere}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="date"
+            type='date'
+            variant="outlined"
+            value={inputValues.date}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            type="text"
+            name="beneficaire"
+            value={inputValues.beneficaire}
+            onChange={handleInputChange}
+            placeholder="A l'ordre de"
+            fullWidth
+            margin="normal"
+          />
+          {print ? (
+          <div>
+                <p>Effecte has already been printed</p>
+                <Button>redirecte print</Button>
+                </div>
+            ) : (
+                <button onClick={handlePrint}>Print effecte</button>
+            )}
+        </form>
+  
   </Paper>
 
   

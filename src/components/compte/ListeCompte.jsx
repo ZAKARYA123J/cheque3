@@ -5,6 +5,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import NumeroCompte from './NumeroCompte';
 import AjouterCompte from './AjouterCompte';
 import { motion } from 'framer-motion';
+import { TiUserDeleteOutline } from "react-icons/ti";
 
 // import './compte.css'
 function ListeCompte() {
@@ -119,7 +120,7 @@ function ListeCompte() {
                                 <ListItem className='ListItem' key={compte.id}>
                                     <ListItemText primary={`${compte.Compte} | ${compte.banque.banque}`} />
                                     <ListItemSecondaryAction>
-                                        <Button onClick={() => deleteCompte(compte.id)} variant="contained" color="error" style={{ margin: '4px' }}>supprimer</Button>
+                                        <Button onClick={() => deleteCompte(compte.id)} variant="contained" color="error" style={{ margin: '4px' }}><TiUserDeleteOutline/></Button>
                                         
                                     </ListItemSecondaryAction>
                                 </ListItem>

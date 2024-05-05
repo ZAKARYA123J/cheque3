@@ -2,6 +2,8 @@
 import { useReactToPrint } from 'react-to-print';
 import { TextField,Button ,Grid,Paper } from '@mui/material';
 import React, { useState, useRef ,useEffect} from 'react';
+import Redirecte from './Redirecte';
+import {Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material'
 // import img from './dev.jpg';
 // import img2 from './banqe.jpg';
 // import img3 from './cih.png'
@@ -20,6 +22,7 @@ export default function PrintCheque({cheque,montant,beneficiary,chequeId}) {
   });
  
   const [print,setPrint]=useState(false)
+  const [openDialog, setOpenDialog] = useState(false);
   function NumberToLetter(nombre) {
     // Define your Unite and Dizaine functions here as you did before
   
@@ -93,6 +96,13 @@ export default function PrintCheque({cheque,montant,beneficiary,chequeId}) {
       [name]: value,
     }));
   };
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+};
+
+const handleCloseDialog = () => {
+    setOpenDialog(false);
+};
   const handleForm = async (e) => {
     e.preventDefault(); // Corrected typo
     try {
@@ -123,6 +133,17 @@ export default function PrintCheque({cheque,montant,beneficiary,chequeId}) {
   return (
     <>
         <Paper elevation={3} style={{ padding: 20,width:'60%',marginLeft:"100px" }}>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogContent>
+                    <Redirecte/>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} variant="outlined" color="error">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         <p>
           {chequeId}
         </p>
@@ -175,7 +196,10 @@ export default function PrintCheque({cheque,montant,beneficiary,chequeId}) {
           required
         />
          {print ? (
+          <div>
                 <p>Cheque has already been printed</p>
+                <Button onClick={handleOpenDialog}>Redirecte Print</Button>
+                </div>
             ) : (
                 <button onClick={handlePrint}>Print Cheque</button>
             )}

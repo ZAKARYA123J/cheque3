@@ -135,7 +135,7 @@ const handleCloseDialog = () => {
         <Paper elevation={3} style={{ padding: 20,width:'60%',marginLeft:"100px" }}>
         <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogContent>
-                    <Redirecte/>
+                    <Redirecte chequeId={chequeId}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} variant="outlined" color="error">

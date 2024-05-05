@@ -1,33 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Container, Grid } from '@mui/material'; // Import Material-UI components
+import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 
-function Redirecte() {
+function Redirecte({chequeId}) {
+    const [inputvalue, setInput] = useState({
+        nom: '',
+        couse: '',
+        cheque_id: chequeId
+    });
+
+
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setInput((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const nom = e.target.elements.nom.value;
-            const couse = e.target.elements.couse.value;
-            const response = await axios.post('http://127.0.0.1:8000/api/redirecte', { nom, couse });
-            console.log(response.data); // Do something with the response if needed
+            const response = await axios.post('http://127.0.0.1:8000/api/redirecte', inputvalue);
+            console.log(response.data);
         } catch (error) {
             console.log('error', error);
         }
     };
-
     return (
-        <Container maxWidth="sm"> {/* Set maximum width */}
-            <Typography variant="h5" align="center" gutterBottom>Redirecte Form</Typography> {/* Typography component for heading */}
+        <Container maxWidth="sm">
+            <Typography variant="h5" align="center" gutterBottom>Redirecte Form</Typography>
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}> {/* Grid container for form elements */}
-                    <Grid item xs={12}> {/* Grid item for input field */}
-                        <TextField fullWidth name="nom" label="Nom" variant="outlined" placeholder="Saisissez votre nom" /> {/* TextField component for name */}
+                <p>{chequeId}</p>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField fullWidth name="nom" label="Nom" variant="outlined" placeholder="Saisissez votre nom" onChange={handleChange} />
                     </Grid>
-                    <Grid item xs={12}> {/* Grid item for input field */}
-                        <TextField fullWidth name="couse" label="La cause" variant="outlined" placeholder="Saisissez votre cause" /> {/* TextField component for cause */}
+                    <Grid item xs={12}>
+                        <TextField fullWidth name="couse" label="La cause" variant="outlined" placeholder="Saisissez votre cause" onChange={handleChange} />
                     </Grid>
-                    <Grid item xs={12}> {/* Grid item for submit button */}
-                        <Button type="submit" variant="contained" color="primary">Submit</Button> {/* Button component for submission */}
+                    <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary">Submit</Button>
                     </Grid>
                 </Grid>
             </form>
